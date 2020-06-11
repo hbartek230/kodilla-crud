@@ -7,7 +7,8 @@ This application uses the following technologies:
 - Java,
 - Gradle,
 - MVC architecture,
-- MySQL database.
+- MySQL database,
+- design patterns.
 
 The following API commands:
 - GET:
