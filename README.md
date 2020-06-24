@@ -13,9 +13,9 @@ This application uses the following technologies:
 The following API commands:
 - GET:
     - /getTasks - get all tasks,
-    - /getTask?taskId={id} - get task with id = {id},
+    - /getTask?taskId={id} - get taskDto with id = {id},
 - POST:
-    - /createTask - create new task (with @RequestBody - title and content),
+    - /createTask - create new taskDto (with @RequestBody - title and content),
 - PUT:
-    - /updateTask - update existed task (with @RequestBody - id, title, content).
+    - /updateTask - update existed taskDto (with @RequestBody - id, title, content).
     
