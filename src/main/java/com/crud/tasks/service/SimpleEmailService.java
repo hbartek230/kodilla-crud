@@ -35,14 +35,13 @@ public class SimpleEmailService {
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
-
-        boolean notNull = ofNullable(mail.getToCc())
-                .filter(toCc -> !mail.getToCc().equals(""))
-                .isPresent();
-        if (notNull){
-            mailMessage.setCc(mail.getToCc());
-            LOGGER.info("Sent to Cc");
-        }
+      
+        ofNullable(mail.getToCc())
+                .filter(toCc -> !toCc.equals(""))
+                .ifPresent(toCc -> {
+                    mailMessage.setCc(toCc);
+                    LOGGER.info("Sent to Cc");
+                });
 
         return mailMessage;
     }

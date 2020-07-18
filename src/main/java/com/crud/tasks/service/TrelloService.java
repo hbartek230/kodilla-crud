@@ -27,6 +27,7 @@ public class TrelloService {
     @Autowired
     private SimpleEmailService emailService;
 
+
     public List<TrelloBoardDto> fetchTrelloBoards() {
         return trelloClient.getTrelloBoards();
     }
