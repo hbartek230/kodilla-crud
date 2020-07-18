@@ -37,9 +37,9 @@ public class SimpleEmailService {
         mailMessage.setText(mail.getMessage());
 
         ofNullable(mail.getToCc())
-                .filter(toCc -> toCc.equals(""))
-                .ifPresent(preparedMail -> {
-                    mailMessage.setCc(mail.getToCc());
+                .filter(toCc -> !toCc.equals(""))
+                .ifPresent(toCc -> {
+                    mailMessage.setCc(toCc);
                     LOGGER.info("Sent to Cc");
                 });
 
