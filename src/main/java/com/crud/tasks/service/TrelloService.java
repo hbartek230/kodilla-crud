@@ -11,33 +11,34 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.Optional.ofNullable;
+
 @Service
 public class TrelloService {
+
+    private static final String SUBJECT = "Tasks: New Trello card";
+
+    @Autowired
+    private AdminConfig adminConfig;
 
     @Autowired
     private TrelloClient trelloClient;
 
     @Autowired
-    private SimpleEmailService mailService;
-
-    @Autowired
-    private AdminConfig adminConfig;
-
-    private static final String SUBJECT = "Tasks: New Trello Card";
+    private SimpleEmailService emailService;
 
     public List<TrelloBoardDto> fetchTrelloBoards() {
         return trelloClient.getTrelloBoards();
     }
 
-    public CreatedTrelloCard createTrelloCard(final TrelloCardDto trelloCard) {
+    public CreatedTrelloCard createCard(final TrelloCardDto trelloCard) {
         CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCard);
-
-        mailService.send(new Mail(
-                adminConfig.getAdminMail(),
-                SUBJECT,
-                "New card: " + trelloCard.getName() + "has been created on your Trello account",
-                ""
-                )
+        ofNullable(newCard).ifPresent(card ->
+                emailService.send(new Mail(
+                        adminConfig.getAdminMail(),
+                        SUBJECT,
+                        "New card " + trelloCard.getName() + " has been created on your Trello board",
+                        "test@testowy.com"))
         );
 
         return newCard;
