@@ -24,11 +24,17 @@ public class EmailScheduler {
 
     @Scheduled(cron = "0 0 10 * * *")
     public void sendInformationEmail() {
+        String tasks;
         long size = taskRepository.count();
+        if (size == 1){
+            tasks = "task";
+        } else {
+            tasks = "tasks";
+        }
         emailService.send(new Mail(
                 adminConfig.getAdminMail(),
                 SUBJECT,
-                "Curently in datbase you got " + size + " tasks",
+                "Curently in datbase you got " + size + " " + tasks,
                 "mail@mailowy.com"
         ));
     }
