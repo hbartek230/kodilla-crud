@@ -36,13 +36,12 @@ public class SimpleEmailService {
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
 
-        boolean notNull = ofNullable(mail.getToCc())
-                .filter(toCc -> !mail.getToCc().equals(""))
-                .isPresent();
-        if (notNull){
-            mailMessage.setCc(mail.getToCc());
-            LOGGER.info("Sent to Cc");
-        }
+        ofNullable(mail.getToCc())
+                .filter(toCc -> toCc.equals(""))
+                .ifPresent(preparedMail -> {
+                    mailMessage.setCc(mail.getToCc());
+                    LOGGER.info("Sent to Cc");
+                });
 
         return mailMessage;
     }
