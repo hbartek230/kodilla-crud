@@ -20,8 +20,8 @@ public class TrelloMapper {
         return trelloBoards.stream()
                 .map(trelloBoard ->
                         new TrelloBoardDto(
-                                trelloBoard.getId(),
                                 trelloBoard.getName(),
+                                trelloBoard.getId(),
                                 mapToListDto(trelloBoard.getLists())))
                 .collect(Collectors.toList());
     }
