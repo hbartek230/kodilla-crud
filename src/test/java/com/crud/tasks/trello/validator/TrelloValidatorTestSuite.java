@@ -34,17 +34,6 @@ public class TrelloValidatorTestSuite {
     }
 
     @Test
-    public void shouldValidateCard() {
-        // given
-
-        // when
-        trelloValidator.validateCard(trelloCard);
-
-        // then
-
-    }
-
-    @Test
     public void shouldValidateTrelloBoard() {
         // given
 
