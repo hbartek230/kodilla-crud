@@ -1,22 +1,25 @@
 package com.crud.tasks.trello.facade;
 
-import com.crud.tasks.domain.TrelloBoard;
-import com.crud.tasks.domain.TrelloBoardDto;
-import com.crud.tasks.domain.TrelloList;
-import com.crud.tasks.domain.TrelloListDto;
+import com.crud.tasks.domain.*;
 import com.crud.tasks.mapper.TrelloMapper;
 import com.crud.tasks.service.TrelloService;
+import com.crud.tasks.trello.config.TrelloConfig;
 import com.crud.tasks.trello.validator.TrelloValidator;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +37,20 @@ public class TrelloFacadeTest {
 
     @Mock
     private TrelloMapper trelloMapper;
+
+    @Mock
+    private RestTemplate restTemplate;
+
+    @Mock
+    private TrelloConfig trelloConfig;
+
+    @Mock
+    private Badges badges;
+
+    @Before
+    public void init() {
+
+    }
 
     @Test
     public void shouldFetchEmptyList() {
@@ -100,5 +117,39 @@ public class TrelloFacadeTest {
                 assertEquals(false, trelloListDto.isClosed());
             });
         });
+    }
+
+    @Test
+    public void shouldCreateTrelloCard() throws URISyntaxException {
+        // given
+        TrelloCardDto trelloCardDto = new TrelloCardDto(
+                "Test task",
+                "Test description",
+                "top",
+                "test_id"
+        );
+
+        URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20description&pos=top&idList=test_id");
+
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto(
+                "1",
+                "Test task",
+                "http://test.com",
+                badges
+        );
+
+        when(trelloConfig.getTrelloApiEndpoint()).thenReturn("http://test.com");
+        when(trelloConfig.getTrelloAppKey()).thenReturn("test");
+        when(trelloConfig.getTrelloToken()).thenReturn("test");
+        when(trelloConfig.getTrelloUsername()).thenReturn("bart3k");
+        when(restTemplate.postForObject(uri, null, CreatedTrelloCardDto.class)).thenReturn(createdTrelloCardDto);
+
+        // when
+        CreatedTrelloCardDto newCard = trelloFacade.createCard(trelloCardDto);
+
+        // then
+        assertEquals("1", newCard.getId());
+        assertEquals("Test task", newCard.getName());
+        assertEquals("http://test.com", newCard.getShortUrl());
     }
 }
