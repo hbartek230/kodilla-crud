@@ -13,7 +13,7 @@ public class EmailScheduler {
 
     private static final String SUBJECT = "Tasks: Once a day email";
 
-    @Autowired
+    /*@Autowired
     private SimpleEmailService emailService;
 
     @Autowired
@@ -37,5 +37,5 @@ public class EmailScheduler {
                 "Curently in datbase you got " + size + " " + tasks,
                 "mail@mailowy.com"
         ));
-    }
+    }*/
 }
