@@ -13,6 +13,12 @@ public class StaticWebPageController {
         model.put("variable", "My Thymyleaf variable");
         model.put("one", 1);
         model.put("two", 2);
+        model.put("four", 4);
+        model.put("six", 6);
+        model.put("minus_two", -2);
+        model.put("operation1", "2 * 2 = ");
+        model.put("operation2", "2 * 2 + 2 = ");
+        model.put("operation3", "2 - 2 * 2 = ");
         return "index";
     }
 }
