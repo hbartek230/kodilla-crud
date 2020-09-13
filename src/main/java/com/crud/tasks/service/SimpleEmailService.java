@@ -41,6 +41,15 @@ public class SimpleEmailService {
         return mailMessage;
     }
 
+    private MimeMessagePreparator createDailyMimeMessage(final Mail mail) {
+        return mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setTo(mail.getMailTo());
+            messageHelper.setSubject(mail.getSubject());
+            messageHelper.setText(mailCreatorService.buildDailyEmailMessage(mail.getMessage()), true);
+        };
+    }
+
 
     public void send(Mail mail) {
         LOGGER.info("Starting email preparation.");
@@ -49,6 +58,16 @@ public class SimpleEmailService {
             LOGGER.info("Email has been sent.");
         } catch (MailException e) {
             LOGGER.error("Failed to process email sending: " + e.getMessage(), e);
+        }
+    }
+
+    public void sendDailyMail(Mail mail) {
+        LOGGER.info("Starting daily email preparation.");
+        try {
+            javaMailSender.send(createDailyMimeMessage(mail));
+            LOGGER.info("Daily email has been sent.");
+        } catch (MailException e) {
+            LOGGER.error("Failed to process daily email sending: " + e.getMessage(), e);
         }
     }
 

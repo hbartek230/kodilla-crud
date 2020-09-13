@@ -13,7 +13,7 @@ public class EmailScheduler {
 
     private static final String SUBJECT = "Tasks: Once a day email";
 
-    /*@Autowired
+    @Autowired
     private SimpleEmailService emailService;
 
     @Autowired
@@ -31,11 +31,11 @@ public class EmailScheduler {
         } else {
             tasks = "tasks";
         }
-        emailService.send(new Mail(
+        emailService.sendDailyMail(new Mail(
                 adminConfig.getAdminMail(),
                 SUBJECT,
                 "Curently in datbase you got " + size + " " + tasks,
                 "mail@mailowy.com"
         ));
-    }*/
+    }
 }
