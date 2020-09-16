@@ -76,7 +76,7 @@ public class TaskControllerTest {
         when(dbService.getTaskById(1L)).thenReturn(Optional.of(testedTaskDto));
 
         // when & then
-        mockMvc.perform(get("/v1/tasks/taskId=1")
+        mockMvc.perform(get("/v1/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .param("taskId", "1"))
@@ -92,7 +92,7 @@ public class TaskControllerTest {
         when(dbService.getTaskById(1L)).thenReturn(Optional.empty());
 
         // when & then
-        mockMvc.perform(get("/v1/tasks/taskId=1")
+        mockMvc.perform(get("/v1/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .param("taskId", "1"))
@@ -106,7 +106,7 @@ public class TaskControllerTest {
         when(dbService.getTaskById(1L)).thenReturn(Optional.of(testedTaskDto));
 
         // when & then
-        mockMvc.perform(delete("/v1/tasks/taskId=1")
+        mockMvc.perform(delete("/v1/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .param("taskId", "1"))
@@ -119,7 +119,7 @@ public class TaskControllerTest {
         when(dbService.getTaskById(1L)).thenReturn(Optional.empty());
 
         // when & then
-        mockMvc.perform(delete("/v1/tasks/taskId=1")
+        mockMvc.perform(delete("/v1/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .param("taskId", "1"))
